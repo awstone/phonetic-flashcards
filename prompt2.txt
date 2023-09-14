@@ -1,0 +1,2 @@
+For all output pairs write their phonetic transcription and explain how they satisfy the requested conditions.
+Generate many pairs of words according to the following specification:

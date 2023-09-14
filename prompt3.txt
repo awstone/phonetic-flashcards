@@ -1,0 +1,8 @@
+Imagine you there are an expert in Speech Language Pathology.
+Take the list of opposing pairs in the previous message, and filter them to only output them if they are correct.
+If there are more than one correct pair, pick the output pair that is the most fun.
+The final output should be the words and an explanation of how the chosen words satisfy minimally or maximally opposing constraints (in terms of place, manner, and voicing) separated by commas with no other text.
+It should be formatted as follows:
+word1, phonetic_transcription1, word2, phonetic_transcription2
+Do not output any extra text.
+
