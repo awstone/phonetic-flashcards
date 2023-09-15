@@ -6,7 +6,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 
 # Read the JSON file
-with open("responses.json", "r") as f:
+with open("responses_filtered.json", "r") as f:
     data = json.load(f)
 
 # Create a new list to hold the items you want to keep
@@ -16,8 +16,8 @@ new_data = []
 for i, item in enumerate(data):
     image_base64_1 = item['pair']['item1']['b64_image']
     image_base64_2 = item['pair']['item2']['b64_image']
-    del item['pair']['item1']['b64_image']
-    del item['pair']['item2']['b64_image']
+    # del item['pair']['item1']['b64_image']
+    # del item['pair']['item2']['b64_image']
     
 
     # Decode and display the image
@@ -39,17 +39,36 @@ for i, item in enumerate(data):
     plt.imshow(image_2)
     plt.title("Image 2")
 
-    other_data = item['pair']
+    item1 = item['pair']['item1']
+    word1 = item1['word']
+    sound1 = item1['sound']
+    ipa1 = item1['ipa']
+    place1 = item1['place']
+    manner1 = item1['manner']
+    voicing1 = item1['voicing']
+
+    item2 = item['pair']['item2']
+    word2 = item2['word']
+    sound2 = item2['sound']
+    ipa2 = item2['ipa']
+    place2 = item2['place']
+    manner2 = item2['manner']
+    voicing2 = item2['voicing']
+
+    other_data = [word1, sound1, ipa1, place1, manner1, voicing1,
+                  word2, sound2, ipa2, place2, manner2, voicing2]
     print(f"image {i} - pair: {other_data}")
     plt.show()
-    
+
+    # item['pair']['item1']['b64_image'] = image_base64_1
+    # item['pair']['item2']['b64_image'] = image_base64_2
 
     # Ask the user if they want to delete this item
     should_delete = input("Do you want to delete this item? (y/n): ")
-    if should_delete.lower() == 'y':
+    if should_delete.lower() == 'n':
         # Delete the item from your data structure (you'll still need to write it back to JSON)
-        del data[i]
+        new_data.append(data[i])
 
 # Write the modified JSON back to the file
 with open("responses_filtered.json", "w") as f:
-    json.dump(data, f)
+    json.dump(new_data, f)
