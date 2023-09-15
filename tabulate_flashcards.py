@@ -71,144 +71,14 @@ def call_model(llm_json, base, refiner):
         # image.save(f"/home/awstone/phonetic-flashcards/images/{obj}.png")
     return images
 
-# def get_text_dimensions(text_string, font):
-#     # https://stackoverflow.com/a/46220683/9263761
-#     ascent, descent = font.getmetrics()
-
-#     text_width = font.getmask(text_string).getbbox()[2]
-#     text_height = font.getmask(text_string).getbbox()[3] + descent
-
-#     return (text_width, text_height)
-
-# def add_text_to_image(image_path, text, x, y, font_size=1.0, font_color=(0, 0, 0), thickness=2):
-#     # Read the image
-#     image = image_path
-
-#     # Define the font properties
-#     font = cv2.FONT_HERSHEY_SIMPLEX
-#     font_scale = font_size
-#     font_thickness = thickness
-#     # Calculate the size of the text to get its width and height
-#     # (text_width, text_height), _ = cv2.getTextSize(text, font, font_scale, font_thickness)
-#     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-#     pil_image = Image.fromarray(image)
-#     draw = ImageDraw.Draw(pil_image)
-#     font = ImageFont.truetype('/home/awstone/dejavu-fonts-ttf-2.37/ttf/DejaVuSerif.ttf', size=30, encoding='unic')
-#     text_width, text_height = get_text_dimensions(text, font)
-
-#     # Calculate the coordinates to center the text at the specified (x, y) point
-#     text_x = x - text_width // 2
-#     text_y = y - text_height // 2
-
-#     # Draw the text on the image
-#     # cv2.putText(image, text, (text_x, text_y), font, font_scale, font_color, font_thickness)
-
-    
-    
-#     # draw.text((text_x, text_y), text, font=font)
-#     print(f'text to go on card {text}')
-#     draw.text((text_x, text_y), text, font=font, fill='black')
-#     image = np.asarray(pil_image)
-#     image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
-
-#     return image
-
-# def overlay_images(base_image_path, overlay_image_path, x1, y1, x2, y2, name):
-#     # Read the base and overlay images
-#     # base_image = cv2.imread(base_image_path)
-#     # Create a blank white image
-#     width, height = 400, 600
-#     image = np.ones((height, width, 3), np.uint8) * 255
-
-#     # Add a border with rounded edges
-
-#     # Parameters
-#     border_color = (0, 0, 0)  # Black
-#     border_thickness = 10  # Thickness of the border
-#     radius = 30  # Radius for the rounded corners
-
-#     # Top left corner
-#     cv2.ellipse(image, (radius, radius), (radius, radius), 180, 0, 90, border_color, border_thickness)
-#     # Top right corner
-#     cv2.ellipse(image, (width - radius, radius), (radius, radius), 270, 0, 90, border_color, border_thickness)
-#     # Bottom left corner
-#     cv2.ellipse(image, (radius, height - radius), (radius, radius), 90, 0, 90, border_color, border_thickness)
-#     # Bottom right corner
-#     cv2.ellipse(image, (width - radius, height - radius), (radius, radius), 0, 0, 90, border_color, border_thickness)
-
-#     # Draw the straight edges
-#     cv2.line(image, (radius, 0), (width - radius, 0), border_color, border_thickness)  # Top edge
-#     cv2.line(image, (radius, height), (width - radius, height), border_color, border_thickness)  # Bottom edge
-#     cv2.line(image, (0, radius), (0, height - radius), border_color, border_thickness)  # Left edge
-#     cv2.line(image, (width, radius), (width, height - radius), border_color, border_thickness)  # Right edge
-
-#     base_image = image
-    
-#     overlay_image = overlay_image_path
-
-#     # Get the dimensions of the overlay image
-#     overlay_height, overlay_width = overlay_image.shape[:2]
-
-#     # Calculate the width and height of the region to overlay
-#     width = x2 - x1
-#     height = y2 - y1
-
-#     # Resize the overlay image to match the size of the region to overlay
-#     resized_overlay = cv2.resize(overlay_image, (width, height))
-
-#     # Use the cv2.addWeighted function to blend the overlay image onto the base image
-#     alpha = 0  # Change this value to adjust the transparency of the overlay
-#     blended_image = cv2.addWeighted(base_image[y1:y2, x1:x2], alpha, resized_overlay, 1 - alpha, 0)
-
-#     # Replace the region of interest on the base image with the blended image
-#     base_image[y1:y2, x1:x2] = blended_image
-
-#     image_path = base_image
-#     text = name
-#     x_coordinate = 208
-#     y_coordinate = 450
-
-#     result_image = add_text_to_image(image_path, text, x_coordinate, y_coordinate)
-
-#     return result_image
-
-
-# def generate_images(llm_json, base, refiner):
-#     list_of_images = call_model(llm_json, base, refiner)
-#     print("Objects to be displayed", list_of_images)
-#     output_list = []
-#     for i in range(len(list_of_images)):
-#         image_name = list_of_images[i]
-        
-#         tempimg = cv2.imread("/home/awstone/phonetic-flashcards/images/" + image_name + ".png")
-#         print("reading", "/home/awstone/phonetic-flashcards/images/" + image_name + ".png")
-#         overlay_image_path = cv2.resize(tempimg, (tempimg.shape[0], tempimg.shape[0]))
-#         # overlay_image_path = make_image_circular(overlay_image_path)
-        
-#         img_1 = np.zeros([60,140,1],dtype=np.uint8)
-#         img_1.fill(255)
-#         templatedirectory = "/home/awstone/phonetic-flashcards/templates/"
-#         random_idx = random.randint(1, 8)
-
-#         # Example usage
-#         base_image_path = templatedirectory + 'template_' + str(random_idx) +'.png'
-#         x1, y1 = 90, 100
-#         x2, y2 = x1 + 235, y1 + 208  # Calculate the second coordinate based on width and height
-
-#         result_image = overlay_images(base_image_path, overlay_image_path, x1, y1, x2, y2, image_name)
-#         resized_image = cv2.resize(result_image, (415, 550))
-#         color_flipped_image = cv2.cvtColor(resized_image, cv2.COLOR_BGR2RGB)
-#         output_list.append(color_flipped_image)
-#     return output_list
-
 def generate_images(llm_json, base, refiner):
     images = call_model(llm_json, base, refiner)
     return images
 
 def run_llm(input_string):
-    with open('/home/awstone/phonetic-flashcards/system-prompt.txt', 'r') as file:
+    with open('/home/cendue/awstone/phonetic-flashcards/system-prompt.txt', 'r') as file:
         system_prompt = file.read()
-    with open('/home/awstone/phonetic-flashcards/unified-prompt.txt', 'r') as file:
+    with open('/home/cendue/awstone/phonetic-flashcards/unified-prompt.txt', 'r') as file:
         unified_prompt = file.read()
     # append the user input to the unified prompt
     unified_prompt += input_string
@@ -232,7 +102,7 @@ def image_to_base64(img):
     return base64.b64encode(buffered.getvalue()).decode("utf-8")
     
 
-def generate(input_string: str, c: str, l: str, s: str):
+def generate(input_string: str, c: str, l: str, s: str, base, refiner):
 
     if len(input_string) > 1024:
         return {"error": "Path too long"}
@@ -245,7 +115,6 @@ def generate(input_string: str, c: str, l: str, s: str):
 
     print(f'llm output: \n\n {llm_json}')
     
-    base, refiner = load_diffusion_model()
     image_list = generate_images(llm_json, base, refiner)
 
     # encode the images
@@ -307,12 +176,14 @@ def generate(input_string: str, c: str, l: str, s: str):
 
 
 if __name__ == '__main__':
-    load_dotenv('/home/awstone/.bashrc')
+    load_dotenv('/home/cendue/awstone/.bashrc')
     openai.api_key = os.environ["OPENAI_API_KEY"]
 
     contrasts = [ 'maximally']
     sounds = ['/s/', '/r/', '/l/']
     locations = ['initial', 'final']
+
+    base, refiner = load_diffusion_model()
 
     # Read the existing JSON data into a Python list
     try:
@@ -327,7 +198,7 @@ if __name__ == '__main__':
         json_responses = []
     for c, l, s in itertools.product(contrasts, locations, sounds):
         input_string = f'Generate a pair of words with {c} contrasting phonemes that differ at the {l} location and one of the sounds is {s}'
-        output_json = generate(input_string, c, l, s)
+        output_json = generate(input_string, c, l, s, base, refiner)
         if output_json != -1:
             json_responses.append(output_json)
         

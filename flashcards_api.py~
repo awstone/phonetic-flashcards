@@ -17,6 +17,8 @@ import re
 import uuid
 import json
 from io import BytesIO
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi import Response
 
 import openai
 import os
@@ -233,15 +235,27 @@ def image_to_base64(img):
     return base64.b64encode(buffered.getvalue()).decode("utf-8")
 
 app = FastAPI()
-MAX_LENGTH = 1024
 
+MAX_LENGTH = 1024
+origins = [
+    "https://vahgarsi.github.io/FlashCards_Demo/page4/",
+    "http://localhost:8080",
+]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 @app.get("/")
 async def root():
 
     return {"message": "Hello, world!"}
 
 @app.get("/generate/{input_string:path}")
-async def generate(input_string: str = Path(...)):
+async def generate(response: Response, input_string: str = Path(...)):
+    response.headers["Access-Control-Allow-Origin"] = "*"
 
     if len(input_string) > MAX_LENGTH:
         return {"error": "Path too long"}
@@ -279,9 +293,9 @@ async def generate(input_string: str = Path(...)):
 
     # parse input_string for contrast and location
     contrast = 'maximal' # this value is fixed
-    if input_string.contains('initial'):
+    if 'initial' in input_string:
         location = 'initial'
-    elif input_string.contains('final'):
+    elif 'final' in input_string:
         location = 'final'
     else:
         location = 'No location specified'
