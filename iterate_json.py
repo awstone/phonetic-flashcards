@@ -6,7 +6,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 
 # Read the JSON file
-with open("responses_filtered_1.json", "r") as f:
+with open("responses_filtered.json", "r") as f:
     data = json.load(f)
 
 # Create a new list to hold the items you want to keep
