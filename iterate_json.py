@@ -6,7 +6,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 
 # Read the JSON file
-with open("responses.json", "r") as f:
+with open("responses_filtered_1.json", "r") as f:
     data = json.load(f)
 
 # Create a new list to hold the items you want to keep
@@ -70,5 +70,5 @@ for i, item in enumerate(data):
         new_data.append(data[i])
 
 # Write the modified JSON back to the file
-with open("responses_filtered.json", "w") as f:
+with open("responses_filtered_1.json", "w") as f:
     json.dump(new_data, f)
