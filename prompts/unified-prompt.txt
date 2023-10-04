@@ -28,7 +28,7 @@ item1 should satisfy the requirements set forth at the end of this prompt.
 
 item2 should be an opposing pair that can be used for phonological therapy.
 
-The 'visual_prompt' should be a prompt for a text-to-image model that can be used to create a clear visual depiction of the corresponding word for that item.
+The 'visual_prompt' should be a prompt for a text-to-image model that can be used to create a clear visual depiction of the corresponding word for that item. The prompts should generate images that are appropriate for children ages 3-6.
 
 Example output: 
 
