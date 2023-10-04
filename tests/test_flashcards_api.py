@@ -5,7 +5,7 @@ import numpy as np
 import base64
 
 # Testing /send_string/ endpoint
-query = 'medial sound /r/'
+query = ''
 encoded_query = quote(query)
 response = requests.post(f"http://127.0.0.1:8000/generate/{encoded_query}")
 response_json = response.json()

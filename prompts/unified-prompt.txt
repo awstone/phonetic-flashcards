@@ -4,6 +4,7 @@ Your output should satisfy the following JSON format:
     'pair':{
 	'item1':{
             'word': word1,
+	    'visual_prompt': visual_prompt1,
 	    'sound': sound1,
 	    'ipa': ipa1,
 	    'place': place1,
@@ -12,6 +13,7 @@ Your output should satisfy the following JSON format:
         },
         'item2':{
 	    'word': word2,
+	    'visual_prompt': visual_prompt2,
 	    'sound': sound2,
 	    'ipa': ipa2,
 	    'place': place2,
@@ -26,12 +28,15 @@ item1 should satisfy the requirements set forth at the end of this prompt.
 
 item2 should be an opposing pair that can be used for phonological therapy.
 
+The 'visual_prompt' should be a prompt for a text-to-image model that can be used to create a clear visual depiction of the corresponding word for that item.
+
 Example output: 
 
 {
     'pair':{
 	'item1':{
             'word': pig,
+	    'visual_prompt': Illustrate a charming scene of a plump, rosy-cheeked pig with a curly tail, frolicking in a muddy puddle amidst a lush green meadow, with a clear blue sky overhead.,
 	    'sound':p, 
 	    'ipa': pɪɡ,
 	    'place': bilabial,
@@ -40,6 +45,7 @@ Example output:
         },
         'item2':{
 	    'word': big,
+	    'visual_prompt': Design a striking visual representation emphasizing the concept of size, contrasting a gigantic, towering object or creature casting a long shadow, with much smaller, regular-sized items or beings beneath it, highlighting the stark difference in scale., 
 	    'sound': b,
 	    'ipa': bɪɡ,
 	    'place': bilabial,

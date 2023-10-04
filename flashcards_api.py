@@ -47,13 +47,15 @@ def load_diffusion_model():
 
 
 def call_model(llm_json, base, refiner):
-    objects = [llm_json['pair']['item1']['word'],
-               llm_json['pair']['item2']['word']]
-    print("Objects are: ", objects)
-    art_style='cartoon'
+    # objects = [llm_json['pair']['item1']['word'],
+    #            llm_json['pair']['item2']['word']]
+    visual_prompts = [llm_json['pair']['item1']['visual_prompt'],
+                      llm_json['pair']['item2']['visual_prompt']]
+    # print("Objects are: ", objects)
+    # art_style='cartoon'
     images = []
-    for i, obj in enumerate(objects):
-        prompt = f"a {art_style} of a {obj}"
+    for i, prompt in enumerate(visual_prompts):
+        # prompt = f"a {art_style} of a {obj}"
         # Define how many steps and what % of steps to be run on each experts (80/20) here
         n_steps = 40
         high_noise_frac = 0.8
@@ -81,9 +83,9 @@ def generate_images(llm_json, base, refiner):
     return images
 
 def run_llm(input_string):
-    with open('/home/cendue/awstone/phonetic-flashcards/system-prompt.txt', 'r') as file:
+    with open('/home/cendue/awstone/phonetic-flashcards/prompts/system-prompt.txt', 'r') as file:
         system_prompt = file.read()
-    with open('/home/cendue/awstone/phonetic-flashcards/unified-prompt.txt', 'r') as file:
+    with open('/home/cendue/awstone/phonetic-flashcards/prompts/unified-prompt.txt', 'r') as file:
         unified_prompt = file.read()
     # append the user input to the unified prompt
     unified_prompt += input_string
@@ -153,6 +155,8 @@ async def generate(response: Response, input_string: str = Path(...)):
     unique_id = str(uuid.uuid4())
     word1 = item1['word']
     word2 = item2['word']
+    visual_prompt1 = item1['visual_prompt']
+    visual_prompt2 = item2['visual_prompt']
     sound1 = item1['sound']
     sound2 = item2['sound']
     ipa1 = item1['ipa']
@@ -187,6 +191,7 @@ async def generate(response: Response, input_string: str = Path(...)):
         'pair':{
             'item1':{
                 'word': word1,
+                'visual_prompt': visual_prompt1,
                 'sound': sound1,
                 'ipa': ipa1,
                 'place': place1,
@@ -196,6 +201,7 @@ async def generate(response: Response, input_string: str = Path(...)):
                 },
             'item2':{
                 'word': word2,
+                'visual_prompt': visual_prompt2,
                 'sound': sound2,
                 'ipa': ipa2,
                 'place': place2,
