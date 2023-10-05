@@ -157,10 +157,10 @@ async def generate(response: Response, input_string: str = Path(...)):
     word2 = item2['word']
     visual_prompt1 = item1['visual_prompt']
     visual_prompt2 = item2['visual_prompt']
-    sound1 = item1['sound']
-    sound2 = item2['sound']
-    ipa1 = item1['ipa']
-    ipa2 = item2['ipa']
+    sound1 = item1['sound'].replace('/', '')
+    sound2 = item2['sound'].replace('/', '')
+    ipa1 = item1['ipa'].replace('/', '')
+    ipa2 = item2['ipa'].replace('/', '')
     place1 = item1['place']
     place2 = item2['place']
     manner1 = item1['manner']
@@ -178,6 +178,8 @@ async def generate(response: Response, input_string: str = Path(...)):
     else:
         location = 'No location specified'
     
+
+
     # Fake image (you should generate or load an actual image)
     # fake_image_bytes = output
     # output_image_base64 = base64.b64encode(fake_image_bytes).decode("utf-8")

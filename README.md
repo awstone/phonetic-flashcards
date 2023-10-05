@@ -1,8 +1,16 @@
 # phonetic-flashcards
 Phonetic Flashcard Generation - AI Institute for Exceptional Education
 
-Step 1: python3 -m pip install -r requirements.txt
+Setting up: 
 
-Step 2: Authenticate with HuggingFace
+Install requirements:
+`python3 -m pip install -r requirements.txt`
 
-Step 3: try Stable Diffusion XL in sdxl_sample.ipynb and FreeWilly2 in freewilly2_sample.ipynb
+To run the flashcards API use: 
+
+`uvicorn flashcards_api:app --reload`
+
+Send a GET request to `/generate/your_query_here`
+
+See `test/test_flashcards_api.py` for example useage.
+
